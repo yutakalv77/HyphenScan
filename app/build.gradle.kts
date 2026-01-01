@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.numberscanner"
+    namespace = "com.mia.hyphenscan"
     compileSdk {
         version = release(36)
     }
@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.example.numberscanner"
+        applicationId = "com.mia.hyphenscan"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

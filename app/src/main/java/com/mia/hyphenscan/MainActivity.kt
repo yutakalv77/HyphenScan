@@ -1,9 +1,13 @@
-package com.example.numberscanner
+package com.mia.hyphenscan
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
+import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,10 +22,10 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import com.example.numberscanner.databinding.ActivityMainBinding
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.mia.hyphenscan.databinding.ActivityMainBinding
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -44,7 +48,8 @@ class MainActivity : AppCompatActivity() {
             }
             if (!permissionGranted) {
                 // 変更前: Toast.makeText(baseContext, "カメラの権限が許可されませんでした。", Toast.LENGTH_SHORT).show()
-                Toast.makeText(baseContext, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()            } else {
+                Toast.makeText(baseContext, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+            } else {
                 startCamera()
             }
         }
@@ -79,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             // 「スキャン中...」以外の有効な値が入っている場合のみコピー
             if (currentText.isNotEmpty() && currentText != getString(R.string.scan_scanning)) {
                 binding.txtClipped.text = currentText
-                binding.txtClipped.visibility = android.view.View.VISIBLE // 表示する
+                binding.txtClipped.visibility = View.VISIBLE // 表示する
             }
         }
 
@@ -118,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             val resolutionSelector = ResolutionSelector.Builder()
                 .setResolutionStrategy(
                     ResolutionStrategy(
-                        android.util.Size(1280, 720),
+                        Size(1280, 720),
                         ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER
                     )
                 )
@@ -198,11 +203,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val rotationDegrees = imageProxy.imageInfo.rotationDegrees
-                val matrix = android.graphics.Matrix()
+                val matrix = Matrix()
                 matrix.postRotate(rotationDegrees.toFloat())
 
                 val rotatedBitmap = try {
-                    android.graphics.Bitmap.createBitmap(
+                    Bitmap.createBitmap(
                         originalBitmap,
                         0, 0,
                         originalBitmap.width, originalBitmap.height,
@@ -226,7 +231,7 @@ class MainActivity : AppCompatActivity() {
                 val safeHeight = cropHeight.coerceAtMost(rotatedBitmap.height - safeY)
 
                 val croppedBitmap = try {
-                    android.graphics.Bitmap.createBitmap(
+                    Bitmap.createBitmap(
                         rotatedBitmap,
                         safeX, safeY, safeWidth, safeHeight
                     )
