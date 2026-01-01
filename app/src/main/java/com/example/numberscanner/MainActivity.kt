@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
                     permissionGranted = false
             }
             if (!permissionGranted) {
-                Toast.makeText(baseContext, "カメラの権限が許可されませんでした。", Toast.LENGTH_SHORT).show()
-            } else {
+                // 変更前: Toast.makeText(baseContext, "カメラの権限が許可されませんでした。", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()            } else {
                 startCamera()
             }
         }
@@ -61,15 +61,30 @@ class MainActivity : AppCompatActivity() {
         binding.seekBarInterval.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val seconds = progress + 1
-                binding.txtIntervalLabel.text = "更新間隔: ${seconds}秒"
+                // ここで更新しているのと同じ処理を、初期化時にもやる必要があります
+                binding.txtIntervalLabel.text = getString(R.string.label_interval, seconds)
 
-                // Analyzerの間隔を更新 (ミリ秒に変換)
                 textAnalyzer?.updateThrottleInterval(seconds * 1000L)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        // 【追加】 Clipボタンの処理
+        binding.btnClip.setOnClickListener {
+            // 現在の結果テキストを取得
+            val currentText = binding.txtResult.text.toString()
+
+            // 「スキャン中...」以外の有効な値が入っている場合のみコピー
+            if (currentText.isNotEmpty() && currentText != getString(R.string.scan_scanning)) {
+                binding.txtClipped.text = currentText
+                binding.txtClipped.visibility = android.view.View.VISIBLE // 表示する
+            }
+        }
+
+        // 【追加】 初期表示を正しくセットする（1秒）
+        binding.txtIntervalLabel.text = getString(R.string.label_interval, 1)
 
         if (allPermissionsGranted()) {
             startCamera()

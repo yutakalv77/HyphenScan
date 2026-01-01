@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NumberScanner</string>
+    <string name="scan_scanning">Scanning…</string>
+    <string name="permission_denied">Camera permission was denied.</string>
+    <string name="label_clip">Clip</string>
+    <string name="label_interval">Update Interval: %1$d sec</string>
 </resources>

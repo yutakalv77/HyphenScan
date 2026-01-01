@@ -24,7 +24,7 @@
         android:background="#80000000"
         android:gravity="center"
         android:padding="12dp"
-        android:text="スキャン中..."
+        android:text="@string/scan_scanning"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -33,6 +33,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65" />
+
+    <!-- 【修正】 Clipボタン (LinearLayoutから出してここに移動) -->
+    <Button
+        android:id="@+id/btnClip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_clip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtResult" />
+
+    <!-- 【修正】 クリップされた値を表示するテキスト (LinearLayoutから出してここに移動) -->
+    <TextView
+        android:id="@+id/txtClipped"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#80000000"
+        android:padding="8dp"
+        android:textColor="#FFFF00"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnClip" />
 
     <!-- ガイド枠 -->
     <View
@@ -44,7 +71,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 設定パネル（背景あり） -->
     <!-- 設定パネル（背景あり） -->
     <LinearLayout
         android:layout_width="0dp"
@@ -63,17 +89,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="更新間隔: 1秒"
+            android:text="@string/label_interval"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
+        <!-- 親のLinearLayoutのpadding="8dp" に加えて、さらに左右を縮めてスペースを確保 -->
         <SeekBar
             android:id="@+id/seekBarInterval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="48dp"
             android:max="9"
-            android:progress="0" />
+            android:paddingVertical="16dp"
+            android:progress="0"
+            android:progressTint="#FFFFFF"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:thumbTint="#FFFFFF" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
