@@ -1,6 +1,9 @@
 package com.mia.hyphenscan
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -88,8 +91,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 【追加】 初期表示を正しくセットする（1秒）
+        // 初期表示を正しくセットする（1秒）
         binding.txtIntervalLabel.text = getString(R.string.label_interval, 1)
+
+        binding.btnCopy.setOnClickListener {
+            // 優先順位:
+            // 1. Clipされたテキスト（黄色）があればそれをコピー
+            // 2. なければ、ガイド枠のテキスト（白）をコピー
+
+            val clippedText = binding.txtClipped.text.toString()
+            val resultText = binding.txtResult.text.toString()
+            val scanningLabel = getString(R.string.scan_scanning)
+
+            if (clippedText.isNotEmpty()) {
+                // Clipされたテキストをコピー
+                copyToClipboard(clippedText)
+            } else if (resultText.isNotEmpty() && resultText != scanningLabel) {
+                // ガイド枠のテキストをコピー
+                copyToClipboard(resultText)
+            } else {
+                // どちらも空（またはスキャン中）の場合のフィードバック（任意）
+                // Toast.makeText(this, "コピーするテキストがありません", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         if (allPermissionsGranted()) {
             startCamera()
@@ -289,6 +313,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun formatNumber(number: String): String {
         return number.chunked(3).joinToString("-")
+    }
+
+    /**
+     * 指定したテキストをクリップボードにコピーし、Toastを表示する関数
+     */
+    private fun copyToClipboard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Scanned Number", text)
+        clipboard.setPrimaryClip(clip)
+
+        // ユーザーにフィードバックを表示 (ローカライズ対応)
+        Toast.makeText(this, getString(R.string.msg_copied), Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

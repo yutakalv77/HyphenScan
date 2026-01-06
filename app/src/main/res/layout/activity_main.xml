@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <!-- 【修正】 Clipボタン (LinearLayoutから出してここに移動) -->
     <Button
@@ -44,6 +44,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtResult" />
+
+    <ImageButton
+        android:id="@+id/btnCopy"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:padding="6dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/btn_copy"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/desc_copy_button"
+        app:layout_constraintTop_toTopOf="@id/btnClip"
+        app:layout_constraintBottom_toBottomOf="@id/btnClip"
+        app:layout_constraintStart_toEndOf="@id/btnClip" />
 
     <!-- 【修正】 クリップされた値を表示するテキスト (LinearLayoutから出してここに移動) -->
     <TextView
@@ -69,7 +83,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
 
     <!-- 設定パネル（背景あり） -->
     <LinearLayout

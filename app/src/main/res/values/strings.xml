@@ -4,4 +4,6 @@
     <string name="permission_denied">Camera permission was denied.</string>
     <string name="label_clip">Clip</string>
     <string name="label_interval">Update Interval: %1$d sec</string>
+    <string name="desc_copy_button">Copy to clipboard</string>
+    <string name="msg_copied">Copied!</string>
 </resources>
